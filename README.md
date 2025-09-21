@@ -83,15 +83,6 @@ wastenot/
 │   │   ├── migrations/
 │   │   ├── static/
 │   │   ├── templates/
-│   │   ├── __init__.py
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── forms.py
-│   │   ├── models.py
-│   │   ├── serializers.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
 │   ├── static/
 │   │   ├── css/
 │   │   ├── images/
