@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main_content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Messages</h1>
+            <div class="flex space-x-4">
+                <form id="markAllReadForm" action="{% url 'mark_all_read' %}" method="POST" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" id="markAllRead" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">
+                        Mark All as Read
+                    </button>
+                </form>
+                <a href="{% url 'send_message' %}" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    New Message
+                </a>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="mb-6 flex space-x-4">
+            <div class="flex-1">
+                <input type="text" id="messageSearch" placeholder="Search messages..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+            </div>
+            <select id="messageFilter" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <option value="all">All Messages</option>
+                <option value="unread">Unread</option>
+                <option value="read">Read</option>
+                <option value="with_attachments">With Attachments</option>
+            </select>
+        </div>
+
+        <!-- Messages List -->
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+            <!-- Tabs -->
+            <div class="border-b border-gray-200">
+                <nav class="flex" aria-label="Tabs">
+                    <button class="tab-button px-6 py-4 text-sm font-medium text-purple-600 border-b-2 border-purple-600" data-tab="received">
+                        Received Messages
+                    </button>
+                    <button class="tab-button px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700" data-tab="sent">
+                        Sent Messages
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Received Messages -->
+            <div id="received-messages" class="tab-content">
+                {% for message in received_messages %}
+                <div class="message-item border-b border-gray-200 hover:bg-gray-50 {% if not message.is_read %}bg-purple-50{% endif %}">
+                    <a href="{% url 'view_message' message.id %}" class="block p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-900 {% if not message.is_read %}font-bold{% endif %}">
+                                    {{ message.subject }}
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    From: {{ message.sender.username }}
+                                    {% if message.item %}
+                                    • Re: {{ message.item.title }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="flex items-center">
+                                {% if not message.is_read %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    New
+                                </span>
+                                {% endif %}
+                                <span class="ml-4 text-sm text-gray-500">
+                                    {{ message.created_at|date:"M d, Y" }}
+                                </span>
+                            </div>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-600 line-clamp-2">
+                            {{ message.content|truncatechars:150 }}
+                        </p>
+                    </a>
+                </div>
+                {% empty %}
+                <div class="p-6 text-center text-gray-500">
+                    No messages received yet.
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Sent Messages -->
+            <div id="sent-messages" class="tab-content hidden">
+                {% for message in sent_messages %}
+                <div class="message-item border-b border-gray-200 hover:bg-gray-50">
+                    <a href="{% url 'view_message' message.id %}" class="block p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    {{ message.subject }}
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    To: {{ message.recipient.username }}
+                                    {% if message.item %}
+                                    • Re: {{ message.item.title }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <span class="text-sm text-gray-500">
+                                {{ message.created_at|date:"M d, Y" }}
+                            </span>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-600 line-clamp-2">
+                            {{ message.content|truncatechars:150 }}
+                        </p>
+                    </a>
+                </div>
+                {% empty %}
+                <div class="p-6 text-center text-gray-500">
+                    No messages sent yet.
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tab switching
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active state from all buttons
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('text-purple-600', 'border-purple-600');
+                    btn.classList.add('text-gray-500');
+                });
+
+                // Add active state to clicked button
+                button.classList.remove('text-gray-500');
+                button.classList.add('text-purple-600', 'border-purple-600');
+
+                // Hide all tab contents
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Show selected tab content
+                const tabName = button.dataset.tab;
+                document.getElementById(`${tabName}-messages`).classList.remove('hidden');
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('messageSearch');
+        const messageItems = document.querySelectorAll('.message-item');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            messageItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        const filterSelect = document.getElementById('messageFilter');
+        
+        filterSelect.addEventListener('change', function() {
+            const filterValue = this.value;
+            
+            messageItems.forEach(item => {
+                switch(filterValue) {
+                    case 'unread':
+                        item.style.display = item.classList.contains('bg-purple-50') ? '' : 'none';
+                        break;
+                    case 'read':
+                        item.style.display = !item.classList.contains('bg-purple-50') ? '' : 'none';
+                        break;
+                    case 'with_attachments':
+                        // Add logic for attachments if needed
+                        break;
+                    default:
+                        item.style.display = '';
+                }
+            });
+        });
+
+        // Mark all as read form submission
+        const markAllReadForm = document.getElementById('markAllReadForm');
+        markAllReadForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            fetch(this.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                credentials: 'same-origin'
+            }).then(response => {
+                if (response.ok) {
+                    // Remove unread styling from all messages
+                    document.querySelectorAll('.message-item').forEach(item => {
+                        item.classList.remove('bg-purple-50');
+                    });
+                    document.querySelectorAll('.message-item .font-bold').forEach(title => {
+                        title.classList.remove('font-bold');
+                    });
+                    document.querySelectorAll('.message-item .inline-flex').forEach(badge => {
+                        badge.remove();
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %} 

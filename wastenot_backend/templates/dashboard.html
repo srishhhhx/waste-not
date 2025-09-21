@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - WasteNot{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen py-8">
+    <div class="container mx-auto px-4">
+        <!-- Welcome Section -->
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+            <h1 class="text-2xl font-bold text-gray-800">Welcome back, {{ request.user.username }}!</h1>
+        </div>
+
+        <!-- Posted Items Section -->
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Your Posted Items</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for item in posted_items %}
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border">
+                    {% if item.primary_image %}
+                    <div class="aspect-w-16 aspect-h-9">
+                        <img src="{{ item.primary_image.image.url }}" 
+                             alt="{{ item.title }}" 
+                             class="w-full h-48 object-cover">
+                    </div>
+                    {% endif %}
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold text-gray-800">{{ item.title }}</h3>
+                            <span class="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+                                {{ item.category.name }}
+                            </span>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            {{ item.location }}
+                        </p>
+                        <a href="{% url 'item_detail' item.id %}" class="inline-flex items-center text-green-600 hover:text-green-700 font-medium">
+                            View Details
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-span-full">
+                    <div class="text-center py-12">
+                        <p class="text-gray-500">You haven't posted any items yet.</p>
+                        <a href="{% url 'post_item' %}" class="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                            Post Your First Item
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Available Items Section -->
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Available Items</h2>
+                <a href="{% url 'browse_items' %}" class="text-green-600 hover:text-green-700 font-medium">
+                    View All →
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for item in available_items %}
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border">
+                    {% if item.primary_image %}
+                    <div class="aspect-w-16 aspect-h-9">
+                        <img src="{{ item.primary_image.image.url }}" 
+                             alt="{{ item.title }}" 
+                             class="w-full h-48 object-cover">
+                    </div>
+                    {% endif %}
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold text-gray-800">{{ item.title }}</h3>
+                            <span class="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+                                {{ item.category.name }}
+                            </span>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            {{ item.location }}
+                        </p>
+                        <a href="{% url 'item_detail' item.id %}" class="inline-flex items-center text-green-600 hover:text-green-700 font-medium">
+                            View Details
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-span-full">
+                    <div class="text-center py-12">
+                        <p class="text-gray-500">No items available in your area yet.</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Your Exchanges Section -->
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Your Exchanges</h2>
+            <div class="space-y-4">
+                {% for exchange in exchanges %}
+                <div class="border rounded-lg p-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-semibold text-lg mb-2">{{ exchange.item.title }}</h3>
+                            <p class="text-gray-600">Scheduled for: {{ exchange.scheduled_date|date:"F j, Y, g:i a" }}</p>
+                            <p class="text-gray-600">Location: {{ exchange.location }}</p>
+                            {% if exchange.notes %}
+                                <p class="text-gray-600 mt-2">Notes: {{ exchange.notes }}</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <span class="px-3 py-1 rounded-full text-sm
+                                {% if exchange.status == 'pending' %}bg-yellow-100 text-yellow-800
+                                {% elif exchange.status == 'confirmed' %}bg-green-100 text-green-800
+                                {% elif exchange.status == 'completed' %}bg-blue-100 text-blue-800
+                                {% else %}bg-red-100 text-red-800{% endif %}">
+                                {{ exchange.status|title }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    {% if exchange.status == 'pending' %}
+                        {% if user == exchange.donor %}
+                        <div class="mt-4 flex space-x-2">
+                            <a href="{% url 'confirm_exchange' exchange.id %}" class="bg-green-600 hover:bg-green-700 text-white text-sm font-bold py-1 px-3 rounded">
+                                Confirm
+                            </a>
+                            <a href="{% url 'cancel_exchange' exchange.id %}" class="bg-red-600 hover:bg-red-700 text-white text-sm font-bold py-1 px-3 rounded">
+                                Cancel
+                            </a>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                {% empty %}
+                <div class="text-center py-8">
+                    <p class="text-gray-500">No exchanges scheduled yet.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <a href="{% url 'post_item' %}" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+                <h3 class="text-xl font-bold mb-2 text-green-600">Post an Item</h3>
+                <p class="text-gray-600">Share items you no longer need with your community.</p>
+            </a>
+            <a href="{% url 'browse_items' %}" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+                <h3 class="text-xl font-bold mb-2 text-blue-600">Browse Items</h3>
+                <p class="text-gray-600">Find items available in your neighborhood.</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

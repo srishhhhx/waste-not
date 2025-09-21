@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WasteNot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <!-- Mapbox CSS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #F5F5DC; /* Light Beige */
+            color: #333333; /* Dark Charcoal */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            color: #228B22; /* Forest Green */
+        }
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay for text readability */
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.5s;
+        }
+
+        .hero .btn {
+            margin: 0.5rem;
+            animation: fadeIn 1s ease-out 1s;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.25rem;
+            }
+        }
+        .primary-color {
+            color: #228B22; /* Forest Green */
+        }
+        .highlight-color {
+            color: #87CEEB; /* Sky Blue */
+        }
+        .bg-primary {
+            background-color: #228B22; /* Forest Green */
+        }
+        .bg-highlight {
+            background-color: #87CEEB; /* Sky Blue */
+        }
+        .bg-light-gray {
+            background-color: #F5F5DC; /* Light Beige */
+        }
+        .text-dark-gray {
+            color: #333333; /* Dark Charcoal */
+        }
+        .hover-scale-up:hover {
+            transform: scale(1.1); /* Increased scale for more effect */
+            transition: transform 0.3s ease-in-out;
+        }
+        .hover-bg-change:hover {
+            background-color: #006400; /* Dark Green */
+            transition: background-color 0.3s ease-in-out;
+        }
+        .hover-text-color:hover {
+            color: #228B22; /* Forest Green */
+            transition: color 0.3s ease-in-out;
+        }
+        /* Hide sections by default */
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .spinner {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 9999;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            margin: -25px 0 0 -25px;
+            border: 8px solid rgba(0, 0, 0, 0.1);
+            border-top: 8px solid #228B22; /* Forest Green */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #228B22, #006400); /* Forest Green to Dark Green */
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #006400, #228B22); /* Reverse gradient */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #87CEEB, #00BFFF); /* Sky Blue to Deep Sky Blue */
+            color: #333333; /* Dark Charcoal */
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #00BFFF, #87CEEB); /* Reverse gradient */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .parallax {
+            /* The image used */
+            background-image: url('background.jpg');
+            /* Set a specific height */
+            min-height: 500px; 
+
+            /* Create the parallax scrolling effect */
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #228B22; /* Forest Green */
+        }
+
+        .card-location {
+            font-size: 1rem;
+            color: #333333; /* Dark Charcoal */
+        }
+
+        @media (min-width: 768px) {
+            .swiper-slide {
+                width: calc(33.333% - 20px); /* Adjust for spacing */
+                margin: 10px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .swiper-slide {
+                width: calc(100% - 20px); /* Full width for mobile */
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light-gray text-dark-gray">
+    <div class="spinner" id="spinner"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-primary p-4 text-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">WasteNot</a>
+            <div>
+                <a href="#" data-section="home" class="mx-2">Home</a>
+                <a href="#" data-section="about" class="mx-2">About Us</a>
+                <a href="#" data-section="faq" class="mx-2">FAQ</a>
+                <a href="#" data-section="profile" class="mx-2">Profile</a>
+                <a href="#" data-section="postItem" class="mx-2">Post an Item</a>
+                <a href="#" data-section="chat" class="mx-2">Chat</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section with Parallax -->
+    <section id="home" class="hero">
+        <video autoplay muted loop>
+            <source src="3196638-uhd_3840_2160_25fps.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content">
+            <h1>Share More, Waste Less</h1>
+            <p>Join our community to reduce waste and help your neighbors.</p>
+            <a href="#" class="btn btn-primary">Join Now</a>
+            <a href="#" class="btn btn-secondary">Learn More</a>
+        </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section class="container mx-auto py-12">
+        <h2 class="text-3xl font-bold text-center mb-8" data-aos="fade-up">Welcome to WasteNot</h2>
+        <div class="flex justify-around">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                <img src="icon1.png" alt="Icon 1" class="mx-auto mb-4 hover-scale-up">
+                <p>Share Items</p>
+            </div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+                <img src="icon2.png" alt="Icon 2" class="mx-auto mb-4 hover-scale-up">
+                <p>Reduce Waste</p>
+            </div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="600">
+                <img src="icon3.png" alt="Icon 3" class="mx-auto mb-4 hover-scale-up">
+                <p>Help Neighbors</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Items Section with Swiper Carousel -->
+    <section class="container mx-auto py-12">
+        <h2 class="text-3xl font-bold text-center mb-8" data-aos="fade-up">Featured Items</h2>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <img src="item1.jpg" alt="Item 1">
+                        <div class="card-content">
+                            <h3 class="card-title">Item Title 1</h3>
+                            <p class="card-location">Location 1</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <img src="item2.jpg" alt="Item 2">
+                        <div class="card-content">
+                            <h3 class="card-title">Item Title 2</h3>
+                            <p class="card-location">Location 2</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="swiper-slide">
+                    <div class="card">
+                        <img src="item3.jpg" alt="Item 3">
+                        <div class="card-content">
+                            <h3 class="card-title">Item Title 3</h3>
+                            <p class="card-location">Location 3</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more slides as needed -->
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Navigation -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </section>
+
+    <!-- Map Integration Section -->
+    <section class="container mx-auto py-12">
+        <h2 class="text-3xl font-bold text-center mb-8" data-aos="fade-up">Find Items Near You</h2>
+        <div id="map" style="width: 100%; height: 500px;"></div>
+    </section>
+
+    <!-- Post an Item Section -->
+    <section id="postItem" class="section" data-aos="fade-in">
+        <div class="container mx-auto py-12">
+            <h2 class="text-3xl font-bold text-center mb-8">Post an Item</h2>
+            <form id="postItemForm" class="bg-white p-6 rounded shadow-md max-w-lg mx-auto">
+                <div class="mb-4">
+                    <label for="itemTitle" class="block text-sm font-bold mb-2">Item Title</label>
+                    <input type="text" id="itemTitle" name="itemTitle" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="itemDescription" class="block text-sm font-bold mb-2">Description</label>
+                    <textarea id="itemDescription" name="itemDescription" class="w-full p-2 border rounded" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="itemCategory" class="block text-sm font-bold mb-2">Category</label>
+                    <select id="itemCategory" name="itemCategory" class="w-full p-2 border rounded" required>
+                        <option value="">Select a category</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="books">Books</option>
+                        <!-- Add more categories as needed -->
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="itemCondition" class="block text-sm font-bold mb-2">Condition</label>
+                    <select id="itemCondition" name="itemCondition" class="w-full p-2 border rounded" required>
+                        <option value="">Select condition</option>
+                        <option value="new">New</option>
+                        <option value="used">Used</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="itemLocation" class="block text-sm font-bold mb-2">Location</label>
+                    <input type="text" id="itemLocation" name="itemLocation" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Images</label>
+                    <div id="dropzone" class="border-dashed border-2 p-4 text-center cursor-pointer">
+                        Drag and drop images here or click to upload
+                        <input type="file" id="itemImages" name="itemImages" class="hidden" multiple accept="image/*">
+                    </div>
+                </div>
+                <button type="submit" class="bg-primary text-white py-2 px-4 rounded hover:bg-highlight transition duration-300">Submit</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-4">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2022 WasteNot. All rights reserved.</p>
+            <div class="mt-2">
+                <a href="#" class="mx-2">Facebook</a>
+                <a href="#" class="mx-2">Twitter</a>
+                <a href="#" class="mx-2">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- Mapbox JS -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+    <script>
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Initialize Swiper Carousel
+        document.addEventListener('DOMContentLoaded', function() {
+            const swiper = new Swiper('.swiper-container', {
+                loop: true,
+                slidesPerView: 3, // Adjust this value based on your needs
+                spaceBetween: 30,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 40,
+                    },
+                },
+            });
+        });
+
+        // Smooth Scrolling for Anchor Links
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a');
+            links.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const target = this.getAttribute('href');
+                    if (target && target !== '#') {
+                        document.querySelector(target).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Map Integration
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2t4bmRhYSIsImEiOiJjbTgzaWIxbjMwcGg4MmpxdjFrZWJvcDQyIn0.Kmoy9nApB2zvh5qBbaY9tA'; // Replace with your Mapbox access token
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [77.594566, 12.971599], // Initial map center [lng, lat]
+            zoom: 9
+        });
+
+        // Sample data for items
+        const items = [
+            {
+                title: 'Wooden Chair',
+                description: 'A sturdy wooden chair in good condition.',
+                location: [77.52904229799407, 12.977643257072238], // Example: New York City
+                category: 'furniture'
+            },
+            {
+                title: 'Smartphone',
+                description: 'A slightly used smartphone with a cracked screen.',
+                location: [77.65157631261992, 12.980658596813797], // Example: Los Angeles
+                category: 'electronics'
+            },
+            {
+                title: 'Bookshelf',
+                description: 'A tall bookshelf with 5 shelves.',
+                location: [77.54895363561053, 12.933612435291737], // Example: Chicago
+                category: 'furniture'
+            }
+        ];
+
+        // Add markers to the map
+        items.forEach(item => {
+            const marker = new mapboxgl.Marker()
+                .setLngLat(item.location)
+                .setPopup(new mapboxgl.Popup({ offset: 25 })
+                .setHTML(`<h3>${item.title}</h3><p>${item.description}</p>`))
+                .addTo(map);
+        });
+
+        // Make the map responsive
+        window.addEventListener('resize', () => {
+            map.resize();
+        });
+
+        // SPA Navigation
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('nav a');
+
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function showSpinner() {
+            const spinner = document.getElementById('spinner');
+            spinner.style.display = 'block';
+            gsap.to(spinner, { rotation: 360, repeat: -1, duration: 1, ease: "linear" });
+        }
+
+        function hideSpinner() {
+            const spinner = document.getElementById('spinner');
+            gsap.to(spinner, { opacity: 0, duration: 0.5, onComplete: () => spinner.style.display = 'none' });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                showSpinner();
+                const sectionId = link.getAttribute('data-section');
+                setTimeout(() => {
+                    showSection(sectionId);
+                    hideSpinner();
+                }, 1000); // Simulate a delay for demonstration
+            });
+        });
+
+        // Drag-and-drop feature for images
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('itemImages');
+
+        dropzone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (event) => {
+            const files = event.target.files;
+            if (files.length > 0) {
+                dropzone.textContent = `${files.length} file(s) selected`;
+            }
+        });
+
+        dropzone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropzone.classList.add('border-primary');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-primary');
+        });
+
+        dropzone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropzone.classList.remove('border-primary');
+            const files = event.dataTransfer.files;
+            fileInput.files = files;
+            dropzone.textContent = `${files.length} file(s) selected`;
+        });
+
+        // Real-time validation
+        const form = document.getElementById('postItemForm');
+        form.addEventListener('input', (event) => {
+            const input = event.target;
+            if (input.checkValidity()) {
+                input.classList.remove('border-red-500');
+            } else {
+                input.classList.add('border-red-500');
+            }
+        });
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            // Handle form submission
+            alert('Item posted successfully!');
+            showSection('home'); // Redirect to home after submission
+        });
+
+        // Enhanced Parallax Effect
+        document.addEventListener('scroll', function() {
+            const parallaxElements = document.querySelectorAll('.parallax');
+            parallaxElements.forEach(element => {
+                const speed = 0.5; // Adjust the speed of the parallax effect
+                const offset = window.pageYOffset * speed;
+                element.style.backgroundPositionY = offset + 'px';
+            });
+        });
+    </script>
+</body>
+</html>

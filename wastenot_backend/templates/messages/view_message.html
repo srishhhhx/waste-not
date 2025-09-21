@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main_content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">{{ message.subject }}</h1>
+                        <div class="mt-2 text-sm text-gray-500">
+                            <p>From: {{ message.sender.username }}</p>
+                            <p>To: {{ message.recipient.username }}</p>
+                            {% if message.item %}
+                            <p>Regarding: <a href="{% url 'item_detail' message.item.id %}" class="text-purple-600 hover:text-purple-700">{{ message.item.title }}</a></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        {{ message.created_at|date:"F j, Y, g:i a" }}
+                    </div>
+                </div>
+
+                <div class="prose max-w-none">
+                    {{ message.content|linebreaks }}
+                </div>
+
+                <div class="mt-8 flex space-x-4">
+                    <a href="{% url 'send_message' reply_to.id %}" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                        Reply
+                    </a>
+                    <a href="{% url 'inbox' %}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">
+                        Back to Inbox
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

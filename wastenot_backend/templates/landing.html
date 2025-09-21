@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Welcome to WasteNot{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <video autoplay muted loop class="absolute w-full h-full object-cover">
+        <source src="{% static 'videos/3196638-uhd_3840_2160_25fps.mp4' %}" type="video/mp4">
+    </video>
+    <div class="hero-content text-center text-white">
+        <h1 class="text-6xl font-bold mb-4" data-aos="fade-down">Share More, <span class="text-green-400">Waste Less</span></h1>
+        <p class="text-xl mb-8" data-aos="fade-up" data-aos-delay="200">Join our community to reduce waste and help your neighbors.</p>
+        <div class="space-x-4" data-aos="fade-up" data-aos-delay="400">
+            <a href="{% url 'register' %}" class="btn btn-primary">Join Now</a>
+            <a href="#features" class="btn btn-secondary">Learn More</a>
+        </div>
+    </div>
+    <div class="custom-shape-divider">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">How It Works</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="floating bg-green-100 rounded-full p-6 inline-block mb-6">
+                    <img src="{% static 'images/icon1.png' %}" alt="Share Items" class="w-16 h-16">
+                </div>
+                <h3 class="text-xl font-bold mb-4">Share Items</h3>
+                <p class="text-gray-600">Post items you no longer need</p>
+            </div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+                <div class="floating bg-blue-100 rounded-full p-6 inline-block mb-6">
+                    <img src="{% static 'images/icon2.png' %}" alt="Reduce Waste" class="w-16 h-16">
+                </div>
+                <h3 class="text-xl font-bold mb-4">Reduce Waste</h3>
+                <p class="text-gray-600">Help reduce environmental impact</p>
+            </div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="600">
+                <div class="floating bg-yellow-100 rounded-full p-6 inline-block mb-6">
+                    <img src="{% static 'images/icon3.png' %}" alt="Help Neighbors" class="w-16 h-16">
+                </div>
+                <h3 class="text-xl font-bold mb-4">Help Neighbors</h3>
+                <p class="text-gray-600">Connect with your community</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Items Preview -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">Featured Items</h2>
+        <div class="swiper-container overflow-hidden">
+            <div class="swiper-wrapper">
+                {% for item in featured_items %}
+                <div class="swiper-slide p-4">
+                    <div class="card">
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">{{ item.title }}</h3>
+                            <p class="text-gray-600 mb-4">{{ item.location }}</p>
+                            <a href="{% url 'register' %}" class="btn btn-primary inline-block">Join to View</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-20 bg-gradient-to-r from-green-500 to-blue-500 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold mb-8" data-aos="fade-up">Ready to Join Our Community?</h2>
+        <p class="text-xl mb-12" data-aos="fade-up" data-aos-delay="200">Start sharing and making a difference today!</p>
+        <a href="{% url 'register' %}" class="btn btn-white" data-aos="fade-up" data-aos-delay="400">Create Account</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Enhanced Swiper Configuration
+    const swiper = new Swiper('.swiper-container', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflowEffect: {
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+{% endblock %} 
