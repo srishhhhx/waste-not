@@ -76,6 +76,7 @@ WasteNot is a full-stack web application that facilitates community-based item s
 
 ## Project Structure
 
+``` sh
 wastenot/
 ├── wastenot_backend/
 │   ├── core/
@@ -113,6 +114,8 @@ wastenot/
 ├── key.py
 ├── README.md
 └── w1.html
+
+```
 
 ## Installation
 
