@@ -27,3 +27,5 @@ staticfiles/
 .idea/
 *.swp
 *.swo 
+
+.ds_store
