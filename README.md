@@ -8,7 +8,7 @@ WasteNot is a full-stack web application that facilitates community-based item s
 ## Features
 
 ### User Management
-- **-->User registration and authentication**: Users can easily create new accounts and securely log in to access personalized features. The system supports robust authentication mechanisms to protect user data.
+- **User registration and authentication**: Users can easily create new accounts and securely log in to access personalized features. The system supports robust authentication mechanisms to protect user data.
 - **Personalized user dashboard**: Each user gets a dedicated dashboard to manage their posted items, view exchange history, track messages, and update their profile settings.
 - **Profile management**: Users can update their personal information, contact details, and preferences, ensuring their profile accurately reflects their current status.
 
