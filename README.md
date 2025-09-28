@@ -32,49 +32,91 @@ WasteNot is a full-stack web application that facilitates community-based item s
 
 ### Location Services
 - **Interactive map interface**: An interactive map interface allows users to visually explore available items based on their geographical location, enhancing the discovery experience.
-- **Location-based item search**: Users can search for items within specific geographical areas, making it easy to find items close to their home, work, or any other preferred location.
 - **Automatic geolocation detection**: The application can automatically detect the user's current location, providing a personalized and relevant item browsing experience.
 - **Custom location input**: Users have the flexibility to manually input custom locations, allowing them to search for items in areas beyond their current geolocation.
 
 ## Tech Stack
 
 ### Frontend
-- **HTML5/CSS3**: Modern web standards for structuring and styling the user interface, ensuring a responsive and visually appealing experience across devices.
-- **JavaScript**: Powers the interactive elements and dynamic functionalities of the frontend, providing a rich user experience.
-- **Tailwind CSS**: A utility-first CSS framework that enables rapid UI development with highly customizable and efficient styling.
-- **GSAP Animations**: GreenSock Animation Platform (GSAP) is used for creating high-performance and complex animations, enhancing the visual appeal and user engagement.
-- **MapBox for mapping**: Integrated for robust and interactive mapping functionalities, enabling location-based features and item discovery.
-- **Swiper.js for carousels**: A modern touch slider that provides smooth and responsive image carousels for displaying multiple item images.
+- **HTML5/CSS3**
+
+
+- **JavaScript**
+
+
+- **Tailwind CSS**
+
+
+- **GSAP Animations**
+
+
+- **MapBox for mapping**
+
+
+- **Swiper.js for carousels**
+
+
 
 ### Backend
-- **Django**: A high-level Python web framework that encourages rapid development and clean, pragmatic design, forming the core of the backend.
-- **Django REST Framework**: A powerful and flexible toolkit for building Web APIs, used to create the RESTful endpoints for the WasteNot application.
-- **MySQL Database**: A robust and widely used relational database management system for storing all application data, including user profiles, item details, and exchange records.
-- **Python**: The primary programming language for the backend, known for its readability, versatility, and extensive libraries.
+- **Django**
+
+
+- **MySQL Database**
+
+
+- **Python**
 
 ### APIs and Services
-- **Google Cloud Vision API for image analysis**: Utilized for advanced image processing, specifically for automatically analyzing and determining the condition of posted items.
-- **MapBox API for location services**: Provides comprehensive mapping and geolocation services, powering the interactive map, location-based search, and automatic geolocation detection.
-- **QR Code generation**: Integrated service for generating unique QR codes for item pickup verification, enhancing security and streamlining the exchange process.
-- **Email service integration**: Enables the sending of automated email notifications for new messages, password resets, and other important system alerts.
+- **Google Cloud Vision API for image analysis**
+
+
+- **MapBox API for location services**
+
+
+- **QR Code generation**
+
+
+- **Email service integration**
+
+
 
 ### Authentication
-- **Django Authentication System**: Leverages Django's built-in, secure authentication system for managing user accounts, sessions, and permissions.
-- **Session-based authentication**: Implements session-based authentication to maintain user login status and provide a seamless user experience.
-- **Password reset functionality**: Provides a secure and user-friendly mechanism for users to reset forgotten passwords.
+- **Django Authentication System**
+
+
+- **Session-based authentication**
+
+
+- **Password reset functionality**
+
 
 ## Security Features
-- **CSRF protection**: Cross-Site Request Forgery (CSRF) protection is implemented to safeguard against malicious attacks that attempt to trick authenticated users into submitting requests they did not intend.
-- **Secure password handling**: User passwords are securely hashed and stored using industry-standard cryptographic techniques, preventing unauthorized access.
-- **Protected user data**: All sensitive user data is encrypted and protected, ensuring privacy and compliance with data protection regulations.
-- **Secure file uploads**: File upload mechanisms are designed with security in mind, including validation and sanitization to prevent malicious file injections.
+- **CSRF protection**
+
+
+- **Secure password handling**
+
+
+- **Protected user data**
+
+
+- **Secure file uploads**
+
 
 ## Requirements
-- **Python 3.x**: The application requires Python version 3.x to run the backend services and scripts.
-- **Django 4.2+**: The backend framework is built on Django 4.2 or a later version.
-- **MySQL**: A MySQL database instance is required for data storage.
-- **Google Cloud Vision API credentials**: Valid API credentials for Google Cloud Vision are necessary for the item condition analysis feature.
-- **MapBox API key**: A valid MapBox API key is required for all location-based services and interactive maps.
+- **Python 3.x**
+
+
+- **Django 4.2+**
+
+
+- **MySQL**
+
+
+- **Google Cloud Vision API credentials**
+
+
+- **MapBox API key**
 
 
 ## Project Structure
