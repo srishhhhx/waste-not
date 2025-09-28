@@ -166,6 +166,20 @@ wastenot/
     pip install -r requirements.txt
     ```
 3.  **Configure environment variables**: Create a `.env` file in the `wastenot_backend` directory based on the `.env.example` file. Populate it with your database credentials, Google Cloud Vision API key, MapBox API key, and email service configurations.
+
+``` sh
+
+DB_ENGINE=django.db.backends.mysql
+DB_NAME=your_database_name
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_HOST=your_database_host
+DB_PORT=3306
+
+SECRET_KEY=your_secret_key_here
+DEBUG=False
+ ``` 
+ 
 4.  **Set up the database**: Apply database migrations to create the necessary tables and schema in your MySQL database.
     ```sh
     python manage.py migrate
