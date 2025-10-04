@@ -5,11 +5,6 @@ WasteNot is a full-stack web application that facilitates community-based item s
 
 ![Landing page](./wastenot_backend/assets/Screenshot%202025-09-28%20at%202.16.47 PM.png)
 
-
-## Architectural Diagram
-
-![Archdiag](./wastenot_backend/assets/Untitled.png)
-
 ## Features
 
 ### User Management
@@ -39,6 +34,11 @@ WasteNot is a full-stack web application that facilitates community-based item s
 - **Interactive map interface**: An interactive map interface allows users to visually explore available items based on their geographical location, enhancing the discovery experience.
 - **Automatic geolocation detection**: The application can automatically detect the user's current location, providing a personalized and relevant item browsing experience.
 - **Custom location input**: Users have the flexibility to manually input custom locations, allowing them to search for items in areas beyond their current geolocation.
+
+## Architectural Diagram
+
+![Archdiag](./wastenot_backend/assets/Untitled.png)
+
 
 ## Tech Stack
 
