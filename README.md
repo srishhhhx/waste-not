@@ -37,7 +37,7 @@ WasteNot is a full-stack web application that facilitates community-based item s
 
 ## Architectural Diagram
 
-![Archdiag](./wastenot_backend/assets/Untitled.png)
+![Archdiag](./wastenot_backend/assets/Gemini_Generated_Image_pym6aepym6aepym6.png)
 
 
 ## Tech Stack
