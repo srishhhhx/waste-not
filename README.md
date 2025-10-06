@@ -3,7 +3,7 @@
 WasteNot is a full-stack web application that facilitates community-based item sharing and waste reduction. The platform enables users to give away items they no longer need, helping reduce landfill waste while fostering community connections.
 
 
-![Landing page](./wastenot_backend/assets/Untitled (1).png)
+![Landing page](./wastenot_backend/assets/Arch.png)
 
 ## Features
 
