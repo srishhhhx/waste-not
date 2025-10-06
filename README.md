@@ -185,11 +185,13 @@ SECRET_KEY=your_secret_key_here
 DEBUG=False
  ``` 
  
-4.  **Set up the database**: Apply database migrations to create the necessary tables and schema in your MySQL database.
+4. **Add gcloud-key.json file**: Add your GCP key json file in the root directory. (Refer https://cloud.google.com/iam/docs/keys-create-delete) 
+
+5.  **Set up the database**: Apply database migrations to create the necessary tables and schema in your MySQL database.
     ```sh
     python manage.py migrate
     ```
-5.  **Run the development server**: Start the Django development server to access the application locally.
+6.  **Run the development server**: Start the Django development server to access the application locally.
     ```sh
     python manage.py runserver
     ```
