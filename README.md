@@ -3,7 +3,7 @@
 ## Table of Contents
 - [Summary](#summary)
 - [Features](#features)
-- [Architectural Diagram](#architectural-diagram)
+- [Architecture Diagram](#architecture-diagram)
 - [Tech Stack](#tech-stack)
 - [Requirements](#requirements)
 - [Project Structure](#project-structure)
@@ -49,7 +49,7 @@ WasteNot is a full-stack web application that facilitates community-based item s
 - **Automatic geolocation detection**: The application can automatically detect the user's current location, providing a personalized and relevant item browsing experience.
 - **Custom location input**: Users have the flexibility to manually input custom locations, allowing them to search for items in areas beyond their current geolocation.
 
-## Architectural Diagram
+## Architecture Diagram
 
 ![Archdiag](./wastenot_backend/assets/IMG_1499.JPG)
 
@@ -214,7 +214,7 @@ DEBUG=False
 
 - Building a feature-rich community platform required solving challenges across third-party APIs, real-time data, and user experience.
 
-- Translating AI Insights into User Value: The Google Cloud Vision API provides raw data labels (e.g., "worn," "scratched," "wooden"), not a simple "condition" score. The core challenge was to engineer a custom algorithm that intelligently processes these labels, weighs their significance, and translates them into a clear, user-friendly condition rating (e.g., "Good," "Fair"), making the AI's output genuinely useful. 🤖
+- Translating AI Insights into User Value: The Google Cloud Vision API provides raw data labels (e.g., "worn," "scratched," "wooden"), not a simple "condition" score. The core challenge was to engineer a custom algorithm that intelligently processes these labels, weighs their significance, and translates them into a clear, user-friendly condition rating (e.g., "Good," "Fair"), making the AI's output genuinely useful. 
 
 - Building a Performant Geospatial Experience: Displaying every available item on an interactive map at once would cripple frontend performance. We implemented an efficient, viewport-based loading strategy with the MapBox API, ensuring that only visible items are fetched and rendered, resulting in a smooth, responsive map experience even as the user base grows.
 
@@ -227,12 +227,12 @@ The goal is to evolve WasteNot from a utility into a cornerstone of the sustaina
 ### Smarter Sharing with AI
 - AI-Powered Item Categorization & Pricing: Enhance the item posting process by using the Vision API to automatically suggest categories and, for items with potential resale value, provide an estimated market price, helping users understand the value of what they're giving away.
 
-- Personalized Recommendation Engine: Develop a recommendation system that analyzes a user's browsing history, claimed items, and location to proactively suggest newly listed items they might be interested in, increasing engagement and successful exchanges. 🧠
+- Personalized Recommendation Engine: Develop a recommendation system that analyzes a user's browsing history, claimed items, and location to proactively suggest newly listed items they might be interested in, increasing engagement and successful exchanges. 
 
 ### Enhancing Community & Trust
-- User Reputation and Gamification: Introduce a user rating and review system to build trust within the community. Complement this with a gamification layer, awarding badges and recognition to users who are active givers, fostering a positive and reliable sharing environment. ⭐
+- User Reputation and Gamification: Introduce a user rating and review system to build trust within the community. Complement this with a gamification layer, awarding badges and recognition to users who are active givers, fostering a positive and reliable sharing environment. 
 
-- Community Impact Dashboard: Create a public dashboard that visualizes the community's collective positive impact, showcasing metrics like total items saved from landfill and the estimated CO₂ emissions prevented, reinforcing the platform's mission. 🌱
+- Community Impact Dashboard: Create a public dashboard that visualizes the community's collective positive impact, showcasing metrics like total items saved from landfill and the estimated CO₂ emissions prevented, reinforcing the platform's mission. 
 
 
 ## Contributing
